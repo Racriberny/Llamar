@@ -1,5 +1,6 @@
 package com.cristobalbernal.llamar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -14,7 +15,9 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
     Button btPare;
     Button btJordan;
-    public static final int REQUEST_CALL_PHONE = 2;
+    String pare = "637336566";
+    String jorda = "644309410";
+    public static final int REQUEST_CALL_PHONE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,13 +27,13 @@ public class MainActivity extends AppCompatActivity {
         btPare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                llamarPersonas("637336566");
+                llamarPersonas(pare);
             }
         });
         btJordan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                llamarPersonas("644309410");
+                llamarPersonas(jorda);
             }
         });
     }
@@ -42,6 +45,18 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tel));
             startActivity(callIntent);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CALL_PHONE:
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //llamarPersonas();
+                }
+                break;
         }
     }
 }
